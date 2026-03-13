@@ -1,0 +1,72 @@
+﻿using System;
+using CodeBrix.TestMocks.AutoFixture;
+using CodeBrix.TestMocks.AutoFixture.Kernel;
+using CodeBrix.TestMocks.Tests.AutoFixture.Kernel;
+using Xunit;
+
+namespace CodeBrix.TestMocks.Tests.AutoFixture; //was previously: namespace AutoFixtureUnitTest;
+
+public class NullRecursionBehaviorTest
+{
+    [Fact]
+    public void SutIsSpecimenBuilderTransformation()
+    {
+        // Arrange
+        // Act
+        var sut = new NullRecursionBehavior();
+        // Assert
+        Assert.IsAssignableFrom<ISpecimenBuilderTransformation>(sut);
+    }
+
+    [Fact]
+    public void TransformNullBuilderThrows()
+    {
+        // Arrange
+        var sut = new NullRecursionBehavior();
+        // Act & assert
+        Assert.Throws<ArgumentNullException>(() =>
+            sut.Transform(null));
+    }
+
+    [Fact]
+    public void TransformReturnsCorrectResultForDefaultRecursionDepth()
+    {
+        // Arrange
+        var sut = new NullRecursionBehavior();
+        // Act
+        var dummyBuilder = new DelegatingSpecimenBuilder();
+        var result = sut.Transform(dummyBuilder);
+        // Assert
+        var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
+        Assert.IsAssignableFrom<NullRecursionHandler>(rg.RecursionHandler);
+        Assert.Equal(1, rg.RecursionDepth);
+    }
+
+    [Fact]
+    public void TransformReturnsCorrectResultForSpecificRecursionDepth()
+    {
+        // Arrange
+        const int explicitRecursionDepth = 2;
+        var sut = new NullRecursionBehavior(explicitRecursionDepth);
+        // Act
+        var dummyBuilder = new DelegatingSpecimenBuilder();
+        var result = sut.Transform(dummyBuilder);
+        // Assert
+        var rg = Assert.IsAssignableFrom<RecursionGuard>(result);
+        Assert.IsAssignableFrom<NullRecursionHandler>(rg.RecursionHandler);
+        Assert.Equal(explicitRecursionDepth, rg.RecursionDepth);
+    }
+
+    [Fact]
+    public void TransformResultCorrectlyDecoratesInput()
+    {
+        // Arrange
+        var sut = new NullRecursionBehavior();
+        var expectedBuilder = new DelegatingSpecimenBuilder();
+        // Act
+        var result = sut.Transform(expectedBuilder);
+        // Assert
+        var guard = Assert.IsAssignableFrom<RecursionGuard>(result);
+        Assert.Equal(expectedBuilder, guard.Builder);
+    }
+}

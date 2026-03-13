@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="AGENT-README.txt" />
+    <File Path="icon-codebrix-128.png" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="THIRD-PARTY-NOTICES.txt" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/CodeBrix.TestMocks.Tests/CodeBrix.TestMocks.Tests.csproj" Id="3108d962-91a9-4ae6-ae80-32b5401d409e" />
+  </Folder>
+  <Project Path="src/CodeBrix.TestMocks/CodeBrix.TestMocks.csproj" Id="f8759520-98b4-48ce-ad3f-5331a6643b3b" />
+</Solution>

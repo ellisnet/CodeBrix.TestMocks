@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+
+    <!-- NuGet package properties -->
+    <PackageId>CodeBrix.TestMocks.ApacheLicenseForever</PackageId>
+    <Version>1.0.71</Version>
+    <Product>CodeBrix.TestMocks</Product>
+    <Title>CodeBrix.TestMocks</Title>
+    <Description>A .NET testing library that provides mocking and test data generation in a single package. Includes auto-mocking integration and xUnit v3 support with AutoData, InlineAutoData, and MemberAutoData attributes.</Description>
+    <Authors>Jeremy Ellis</Authors>
+    <Copyright>Copyright (c) 2025 Jeremy Ellis and contributors</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageIcon>icon-codebrix-128.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/ellisnet/CodeBrix.TestMocks</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ellisnet/CodeBrix.TestMocks</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>testing;mocking;mock;autofixture;test-data;auto-mocking;xunit;xunit3;CodeBrix</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\icon-codebrix-128.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

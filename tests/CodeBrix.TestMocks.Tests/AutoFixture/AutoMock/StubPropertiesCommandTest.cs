@@ -1,0 +1,86 @@
+﻿using CodeBrix.TestMocks.AutoFixture.AutoMock;
+using CodeBrix.TestMocks.AutoFixture.Kernel;
+using CodeBrix.TestMocks.Mocking;
+using CodeBrix.TestMocks.Tests.AutoFixture.AutoMock.TestTypes;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace CodeBrix.TestMocks.Tests.AutoFixture.AutoMock; //was previously: namespace AutoFixture.AutoMoq.UnitTest;
+
+public class StubPropertiesCommandTest
+{
+    [Theory]
+    [ClassData(typeof(ValidNonMockSpecimens))]
+    public void ExecuteDoesNotThrowsWhenSpecimenIsValidNonMockSpecimen(object validNonMockSpecimen)
+    {
+        // Arrange
+        var context = new Mock<ISpecimenContext>().Object;
+        var sut = new StubPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(validNonMockSpecimen, context)));
+    }
+
+    [Fact]
+    public void IgnoresNonMockSpecimens()
+    {
+        // Arrange
+        var request = new object();
+        var context = new Mock<ISpecimenContext>().Object;
+        var sut = new StubPropertiesCommand();
+        // Act & Assert
+        Assert.Null(Record.Exception(() => sut.Execute(request, context)));
+    }
+
+    [Fact]
+    public void StubsProperties()
+    {
+        // Arrange
+        const string expectedPropertyValue = "a string";
+        var request = new Mock<IInterfaceWithProperty>();
+        var context = new Mock<ISpecimenContext>().Object;
+        var sut = new StubPropertiesCommand();
+        // Act
+        sut.Execute(request, context);
+        // Assert
+        request.Object.Property = expectedPropertyValue;
+        Assert.Equal(expectedPropertyValue, request.Object.Property);
+    }
+
+    [Fact]
+    public async Task DoesNotHangIfMockedTypeHasPropertiesWithCircularDependencies()
+    {
+        // Arrange
+        var request = new Mock<IInterfaceWithPropertyWithCircularDependency>()
+        {
+            DefaultValue = DefaultValue.Mock
+        };
+        var context = new Mock<ISpecimenContext>().Object;
+        var sut = new StubPropertiesCommand();
+        var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        // Act
+        var task = Task.Run(() => sut.Execute(request, context), tokenSource.Token);
+
+        await task.ContinueWith(t => Assert.Equal(TaskStatus.RanToCompletion, t.Status), TaskScheduler.Default)
+            .ConfigureAwait(true);
+    }
+
+    [Theory]
+    [InlineData(DefaultValue.Empty)]
+    [InlineData(DefaultValue.Mock)]
+    public void DoesNotAffectMockDefaultValueSetting(DefaultValue defaultValue)
+    {
+        // Arrange
+        var request = new Mock<IInterfaceWithProperty>()
+        {
+            DefaultValue = defaultValue
+        };
+        var context = new Mock<ISpecimenContext>().Object;
+        var sut = new StubPropertiesCommand();
+        // Act
+        sut.Execute(request, context);
+        // Assert
+        Assert.Equal(defaultValue, request.DefaultValue);
+    }
+}

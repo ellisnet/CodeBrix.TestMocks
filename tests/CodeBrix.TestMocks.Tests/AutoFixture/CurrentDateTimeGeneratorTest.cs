@@ -1,0 +1,72 @@
+﻿using System;
+using CodeBrix.TestMocks.AutoFixture;
+using CodeBrix.TestMocks.AutoFixture.Kernel;
+using CodeBrix.TestMocks.Tests.AutoFixture.Kernel;
+using Xunit;
+
+namespace CodeBrix.TestMocks.Tests.AutoFixture; //was previously: namespace AutoFixtureUnitTest;
+
+public class CurrentDateTimeGeneratorTest
+{
+    [Fact]
+    public void SutIsSpecimenBuilder()
+    {
+        // Arrange
+        // Act
+        var sut = new CurrentDateTimeGenerator();
+        // Assert
+        Assert.IsAssignableFrom<ISpecimenBuilder>(sut);
+    }
+
+    [Fact]
+    public void CreateWithNullRequestWillReturnCorrectResult()
+    {
+        // Arrange
+        var sut = new CurrentDateTimeGenerator();
+        // Act
+        var dummyContainer = new DelegatingSpecimenContext();
+        var result = sut.Create(null, dummyContainer);
+        // Assert
+        Assert.Equal(NoSpecimen.Instance, result);
+    }
+
+    [Fact]
+    public void CreateWithNullContextDoesNotThrow()
+    {
+        // Arrange
+        var sut = new CurrentDateTimeGenerator();
+        // Act & assert
+        var dummyRequest = new object();
+        Assert.Null(Record.Exception(() => sut.Create(dummyRequest, null)));
+    }
+
+    [Fact]
+    public void CreateWithNonDateTimeRequestWillReturnCorrectResult()
+    {
+        // Arrange
+        var nonDateTimeRequest = new object();
+        var sut = new CurrentDateTimeGenerator();
+        // Act
+        var dummyContainer = new DelegatingSpecimenContext();
+        var result = sut.Create(nonDateTimeRequest, dummyContainer);
+        // Assert
+        var expectedResult = NoSpecimen.Instance;
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void CreateWithDateTimeRequestReturnsCorrectResult()
+    {
+        // Arrange
+        var before = DateTime.Now;
+        var dateTimeRequest = typeof(DateTime);
+        var sut = new CurrentDateTimeGenerator();
+        // Act
+        var dummyContext = new DelegatingSpecimenContext();
+        var result = sut.Create(dateTimeRequest, dummyContext);
+        // Assert
+        var after = DateTime.Now;
+        var dt = Assert.IsAssignableFrom<DateTime>(result);
+        Assert.True(before <= dt && dt <= after);
+    }
+}
