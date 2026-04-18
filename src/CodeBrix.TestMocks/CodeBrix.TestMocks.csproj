@@ -5,7 +5,7 @@
 
     <!-- NuGet package properties -->
     <PackageId>CodeBrix.TestMocks.ApacheLicenseForever</PackageId>
-    <Version>1.0.71</Version>
+    <Version>1.0.106</Version>
     <Product>CodeBrix.TestMocks</Product>
     <Title>CodeBrix.TestMocks</Title>
     <Description>A .NET testing library that provides mocking and test data generation in a single package. Includes auto-mocking integration and xUnit v3 support with AutoData, InlineAutoData, and MemberAutoData attributes.</Description>
