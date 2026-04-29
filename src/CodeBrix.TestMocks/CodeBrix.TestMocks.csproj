@@ -5,12 +5,12 @@
 
     <!-- NuGet package properties -->
     <PackageId>CodeBrix.TestMocks.ApacheLicenseForever</PackageId>
-    <Version>1.0.106</Version>
+    <Version>1.0.117</Version>
     <Product>CodeBrix.TestMocks</Product>
     <Title>CodeBrix.TestMocks</Title>
     <Description>A .NET testing library that provides mocking and test data generation in a single package. Includes auto-mocking integration and xUnit v3 support with AutoData, InlineAutoData, and MemberAutoData attributes.</Description>
     <Authors>Jeremy Ellis</Authors>
-    <Copyright>Copyright (c) 2025 Jeremy Ellis and contributors</Copyright>
+    <Copyright>Copyright (c) 2026 Jeremy Ellis and contributors</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>icon-codebrix-128.png</PackageIcon>
     <PackageProjectUrl>https://github.com/ellisnet/CodeBrix.TestMocks</PackageProjectUrl>
@@ -27,8 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\..\icon-codebrix-128.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\icon-codebrix-128.png" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\AGENT-README.txt" Pack="true" PackagePath="" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

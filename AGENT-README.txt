@@ -35,10 +35,9 @@ See THIRD-PARTY-NOTICES.txt for full attribution.
 INSTALLATION
 ------------
 NuGet Package: CodeBrix.TestMocks.ApacheLicenseForever
-Version: 1.0.73
 Authors: Jeremy Ellis
 Dependencies:
-  - xunit.v3.extensibility.core (>= 3.2.2)
+  - xunit.v3.extensibility.core
 
 Requirements: .NET 10.0 or higher
 
@@ -48,7 +47,7 @@ To add to a .NET 10+ test project:
 
 Or in a .csproj file:
 
-    <PackageReference Include="CodeBrix.TestMocks.ApacheLicenseForever" Version="1.0.73" />
+    <PackageReference Include="CodeBrix.TestMocks.ApacheLicenseForever" />
 
 IMPORTANT: The package name is "CodeBrix.TestMocks.ApacheLicenseForever"
 (not just "CodeBrix.TestMocks"). Always use this full package name.
@@ -857,7 +856,8 @@ DEEPER LEARNING: TEST FILE CROSS-REFERENCES
 
 The CodeBrix.TestMocks source repository contains extensive test files.
 If the documentation above is not sufficient, read the relevant files from
-the local repository at: /home/debian/GitHome/CodeBrix.TestMocks
+the local clone of the source repository
+(https://github.com/ellisnet/CodeBrix.TestMocks).
 
 Test project: tests/CodeBrix.TestMocks.Tests/
 
@@ -900,8 +900,8 @@ Feature-to-test-file mapping:
   ActionObserver behavior:
     -> tests/CodeBrix.TestMocks.Tests/ActionObserverTests.cs
 
-NOTE: Since this repository is not yet public, fetch files from the local
-copy at /home/debian/GitHome/CodeBrix.TestMocks/ instead of GitHub URLs.
+NOTE: Prefer reading these files from the local clone of the repository
+rather than fetching them from GitHub.
 
 ================================================================================
 
