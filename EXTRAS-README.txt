@@ -36,8 +36,22 @@ or, from the test project folder:
 
     dotnet test
 
-There is nothing to configure: no environment variables, no opt-in switches,
-no external services, no platform-specific prerequisites.
+There is nothing for you to configure: no environment variables, no external
+services, no platform-specific prerequisites. The one piece of required
+configuration, global.json (which selects the Microsoft Testing Platform
+runner), is committed at the repository root, so a fresh clone runs the suite
+as-is.
+
+Do NOT add --nologo to either command. It is a VSTest-only switch, and in
+Microsoft Testing Platform mode the .NET 10 SDK forwards it to the test
+application, which rejects it and exits before discovery. The run then reports
+"Zero tests ran" (exit code 5) with nothing explaining why, which reads like a
+broken test suite rather than a bad argument. When you want the banner
+suppressed, use the MTP spelling instead:
+
+    dotnet test CodeBrix.TestMocks.slnx -- --no-banner
+
+MAINTAINER-README.txt has the background and the upstream issue numbers.
 
 What it demonstrates
 --------------------

@@ -77,6 +77,26 @@ in your test project — this package brings in only the extensibility core:
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="..." />
 
+On the .NET 10 SDK you ALSO need a global.json beside your solution, because
+xunit.v3 4.x runs on Microsoft Testing Platform (MTP) and the .NET 10 SDK will
+not run MTP-based tests through VSTest:
+
+    {
+      "test": {
+        "runner": "Microsoft.Testing.Platform"
+      }
+    }
+
+Without it, dotnet test fails immediately with "Testing with VSTest target is
+no longer supported by Microsoft.Testing.Platform on .NET 10 SDK and later."
+
+Do NOT pass --nologo to dotnet test in MTP mode. It is a VSTest-only switch;
+the SDK forwards it to the test application, which rejects it and exits before
+discovery, so the run reports "Zero tests ran" (exit code 5) and no test
+actually executes. The MTP spelling is --no-banner:
+
+    dotnet test -- --no-banner
+
 This package provides no assertion library. Use xUnit's Assert, or a fluent
 assertion package such as SilverAssertions.
 
@@ -2075,6 +2095,15 @@ four package references. MyTests.csproj:
 
 (Resolve the current version of each package at the time you write the file.)
 
+Plus global.json beside the solution — required on the .NET 10 SDK, see
+INSTALLATION above:
+
+    {
+      "test": {
+        "runner": "Microsoft.Testing.Platform"
+      }
+    }
+
 GreeterTests.cs:
 
     using CodeBrix.TestMocks.AutoFixture.AutoMock.Data;
@@ -2124,6 +2153,8 @@ Then:
 
     dotnet build
     dotnet test
+
+(Do not add --nologo to that dotnet test call; see INSTALLATION above.)
 
 ================================================================================
 

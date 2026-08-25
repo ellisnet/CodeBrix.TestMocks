@@ -102,6 +102,32 @@ TESTING
 
     dotnet test CodeBrix.TestMocks.slnx
 
+That command works only because of global.json in the repository root:
+
+    {
+      "test": {
+        "runner": "Microsoft.Testing.Platform"
+      }
+    }
+
+xunit.v3 4.0.0 dropped Microsoft Testing Platform (MTP) v1 and depends on
+xunit.v3.mtp-v2, and the .NET 10 SDK no longer runs MTP-based tests through
+VSTest. Without that global.json, dotnet test fails immediately with "Testing
+with VSTest target is no longer supported by Microsoft.Testing.Platform on
+.NET 10 SDK and later." The file is solution-wide configuration, not a local
+preference; keep it in the repository and in the slnx Solution Items folder.
+
+Do NOT pass --nologo. It is a VSTest-only switch. In MTP mode the .NET 10 SDK
+forwards it to the test application, which rejects it and exits before
+discovery, so the run reports "Zero tests ran" (exit code 5) with nothing
+explaining why. Use the MTP spelling when you want the banner suppressed:
+
+    dotnet test CodeBrix.TestMocks.slnx -- --no-banner
+
+This is dotnet/sdk issue #55309, fixed by PR #55376 for .NET 11. As of the
+10.0.400 SDK there is no backport to .NET 10, and -- --no-banner keeps working
+whether or not one lands.
+
 The test project references xunit.v3, xunit.runner.visualstudio and
 Microsoft.NET.Test.Sdk and defines SYSTEM_THREADING_THREAD_CULTURESETTERS in
 both Debug and Release. It reaches internals through the InternalsVisibleTo
