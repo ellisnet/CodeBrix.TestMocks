@@ -69,10 +69,11 @@ REPOSITORY LAYOUT
         src folder structure (AutoFixture/, AutoFixture/Kernel/, Linq/,
         Matchers/, Regressions/, ProxyFactories/, Helpers/, Async/).
 
-The solution file lists .gitignore, AGENT-README.txt, icon-codebrix-128.png,
-LICENSE, README.md and THIRD-PARTY-NOTICES.txt under "Solution Items" and the
-test project under a "Tests" folder. If you add a root-level document that
-maintainers should see in the IDE, add it to Solution Items too.
+The solution file lists .gitignore, AGENT-README.txt, EXTRAS-README.txt,
+global.json, icon-codebrix-128.png, LICENSE, MAINTAINER-README.txt,
+README-INDEX.txt, README.md and THIRD-PARTY-NOTICES.txt under "Solution Items"
+and the test project under a "Tests" folder. If you add a root-level document
+that maintainers should see in the IDE, add it to Solution Items too.
 
 BUILDING
 ========

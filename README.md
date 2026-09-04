@@ -1,6 +1,10 @@
 # CodeBrix.TestMocks
 
-A single-package .NET testing library that provides **mocking** and **auto-generated test data**, with xUnit v3 integration built in — everything you need to write thorough unit tests from one package reference.
+A single-package .NET testing library that provides **mocking** and **auto-generated test data**, with xUnit v3 integration built in — everything you need to write thorough unit tests from one package reference. CodeBrix.TestMocks is provided as a .NET 10 library and associated `CodeBrix.TestMocks.ApacheLicenseForever` NuGet package.
+
+CodeBrix.TestMocks supports applications and assemblies that target Microsoft .NET version 10.0 and later.
+Microsoft .NET version 10.0 is a Long-Term Supported (LTS) version of .NET, and was released on Nov 11, 2025; and will be actively supported by Microsoft until Nov 14, 2028.
+Please update your C#/.NET code and projects to the latest LTS version of Microsoft .NET.
 
 | | |
 | --- | --- |
@@ -42,7 +46,22 @@ Without it, `dotnet test` stops with *"Testing with VSTest target is no longer s
 
 No assertion library is included; use xUnit's `Assert` or a fluent assertion package of your choice.
 
-## What's in the box
+## CodeBrix.TestMocks supports:
+
+* Mock creation, setup and verification for interfaces and for the virtual members of a class - `new Mock<T>()`, `Mock.Of<T>()`, `Setup(...)`, `Returns(...)`, `Verify(...)`
+* Argument matchers - `It.IsAny<T>()`, `It.Is<T>(x => ...)`, `It.IsInRange(1, 100, Range.Inclusive)`
+* Call-count assertions - `Times.Once()`, `Times.Never()`, `Times.Exactly(n)`, `Times.AtLeastOnce()`
+* Callbacks, call sequences and property setup - `Callback<T>(...)`, `SetupSequence(...)`, `SetupProperty(...)`, `SetupAllProperties()`
+* Loose mocks by default, with `MockBehavior.Strict` when unmatched calls should throw
+* Additional interfaces on an existing mock - `mock.As<IDisposable>()`
+* Async setups - `ReturnsAsync(...)` and `ThrowsAsync(...)`
+* Auto-generated test data and whole object graphs - `Fixture`, `Create<T>()`, `CreateMany<T>()`, `Freeze<T>()`, and the `Build<T>().With(...).Without(...).Create()` customization chain
+* Auto-mocking of constructor dependencies through `AutoMockCustomization`, so a system under test can be built with all of its dependencies mocked and no fixture plumbing
+* xUnit v3 data attributes for data-driven tests - `[AutoData]`, `[InlineAutoData]`, `[MemberAutoData]`, `[AutoMockData]`, `[InlineAutoMockData]` and `[Frozen]`
+* Deriving your own data attributes from `AutoDataAttribute` or `InlineAutoDataAttribute` for project-wide conventions
+* The proxy generator the mocking API is built on, usable directly for aspect-style interception (logging, timing, retry, lazy loading) - `ProxyGenerator`, `IInterceptor`
+
+Where those live:
 
 | Namespace | Purpose |
 | --- | --- |
@@ -53,6 +72,8 @@ No assertion library is included; use xUnit's `Assert` or a fluent assertion pac
 | `CodeBrix.TestMocks.AutoFixture.AutoMock.Data` | Ready-made `[AutoMockData]` and `[InlineAutoMockData]` attributes |
 
 Every public namespace begins with `CodeBrix.TestMocks`.
+
+## Sample Code
 
 The examples below use these types:
 
@@ -79,7 +100,7 @@ public class Order
 }
 ```
 
-## Mocking
+### Mocking
 
 Create a mock of an interface (or the virtual members of a class), set up the behavior you need, and verify how your code used it.
 
@@ -115,7 +136,7 @@ Common building blocks:
 - **Behavior** — mocks are loose by default (unmatched calls return defaults); pass `MockBehavior.Strict` to make them throw instead
 - **Extra interfaces** — `mock.As<IDisposable>().Setup(d => d.Dispose())`
 
-## Test data
+### Test data
 
 `Fixture` generates anonymous but valid values for any type, so tests only state the values they actually care about.
 
@@ -138,7 +159,7 @@ var custom = fixture.Build<Order>()
                     .Create();
 ```
 
-## Auto-mocking
+### Auto-mocking
 
 `AutoMockCustomization` connects the two halves: when the fixture meets an interface or abstract class it cannot construct, it supplies a mock instead. That means a system under test can be built with all of its dependencies mocked, without any fixture plumbing.
 
@@ -191,10 +212,12 @@ public void Greeting_ContainsName(string name, int orderId)
 
 For project-wide conventions, derive your own attribute from `AutoDataAttribute` or `InlineAutoDataAttribute` and pass a configured fixture to the base constructor.
 
-## Further reading
+## Documentation
 
-- **[AGENT-README.txt](https://github.com/ellisnet/CodeBrix.TestMocks/blob/main/AGENT-README.txt)** — the complete API reference, with worked examples, common pitfalls and guidance. Written for AI coding agents, but it is the most thorough documentation available and reads perfectly well for humans.
-- **[tests/CodeBrix.TestMocks.Tests](https://github.com/ellisnet/CodeBrix.TestMocks/tree/main/tests/CodeBrix.TestMocks.Tests)** — the test suite doubles as executable documentation, with roughly one file per feature area.
+The NuGet package includes `AGENT-README.txt`, a complete API reference and usage guide written for AI coding agents - point your agent at that file when it is writing code against this library. It is the most thorough documentation available, and it reads perfectly well for humans; it is also [readable on GitHub](https://github.com/ellisnet/CodeBrix.TestMocks/blob/main/AGENT-README.txt).
+
+Additional sample code and usage examples are available in the `CodeBrix.TestMocks.Tests` project, which doubles as executable documentation with roughly one file per feature area:
+https://github.com/ellisnet/CodeBrix.TestMocks/tree/main/tests/CodeBrix.TestMocks.Tests
 
 ## License
 

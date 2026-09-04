@@ -61,7 +61,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageTags>testing;mocking;mock;autofixture;test-data;auto-mocking;xunit;xunit3;CodeBrix</PackageTags>
+    <PackageTags>testing;mocking;mock;test-data;test-data-generation;auto-mocking;xunit;xunit3;CodeBrix</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
